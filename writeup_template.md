@@ -10,13 +10,13 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/original_image.png "original_image"
-[image2]: ./examples/cropped_image.png "cropped_image"
-[image3]: ./examples/blurred_yuv_image.png "cropped_image"
-[image4]: ./examples/original_image_left.png "left_image"
-[image5]: ./examples/original_image_right.png "right_image"
-[image6]: ./examples/original_image_notflipped.png "original_image_notflipped"
-[image7]: ./examples/original_image_flipped.png "original_image_flipped"
+[image1]: ./report_images/original_image.png "original_image"
+[image2]: ./report_images/cropped_image.png "cropped_image"
+[image3]: ./report_images/blurred_yuv_image.png "cropped_image"
+[image4]: ./report_images/original_image_left.png "left_image"
+[image5]: ./report_images/original_image_right.png "right_image"
+[image6]: ./report_images/original_image_notflipped.png "original_image_notflipped"
+[image7]: ./report_images/original_image_flipped.png "original_image_flipped"
 
 
 ## Rubric Points
