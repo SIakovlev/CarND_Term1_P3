@@ -153,16 +153,46 @@ This picture contains many elements that are not of interest, therefore I used i
 
 ![alt text][image6] ![alt text][image7]
 
-* Third, in order to improve robustness at the straight parts of the route, **random shifts** of the image to the right or left were added to the dataset. I shift the central image to the right by 10 - 20 pixels and correct the corresponding steering angle by a factor that depends on the shift. Here are some pictures that explain this idea:
+* Third, in order to improve robustness at the straight parts of the route, **random shifts** of the image to the right or left were added to the dataset. I shift the central image to the right by 10 - 20 pixels and correct the corresponding steering angle by a factor that depends on the shif:
+
+```python
+if dice == 1:
+    shift = np.random.randint(10,20)
+    temp = np.copy(image)
+    return translation(temp, t=(shift, 0)), angle - shift*0.001
+elif dice == 2:
+    shift = np.random.randint(10,20)
+    temp = np.copy(image)
+    return translation(image, t=(-shift, 0)), angle + shift*0.001
+```
+
+Here are some pictures that explain this idea:
 
 ![alt text][image9] 
 ![alt text][image10]
 
-In order to get rid of black region in the image we crop it in the neural network layer (see the architecture) by 20 pixels from both sides and get the following result:
+In order to get rid of black region in the image we crop it in the neural network layer (see the architecture) by 20 pixels from both sides 
+```python
+ ...
+ model.add(Cropping2D(cropping=((0, 0),(20, 20))))
+ ...
+```
+and get the following result:
 
 ![alt text][image11]
 
-* Another improvement that help to deal with sunny or dark parts of the track is brightness augmentation. I randomly change brightness of the picture by a factor of [-20, 50] and add it to the training batch. These are the examples of brightness augmentation
+* Another improvement that help to deal with sunny or dark parts of the track is brightness augmentation. I randomly change brightness of the picture by a factor of [-20, 50] and add it to the training batch:
+
+```python
+def augment_brightness(image):
+    a = [-20, -10, 10, 20, 30, 40, 50]
+    value = random.sample(a, 1)
+    # do this in order to avoid uint8 array overflow (taken from stackexchange)
+    image[:,:,0] = np.where((255 - image[:,:,0]) < value, 255, image[:,:,0] + value)
+    return image 
+```
+
+These are the examples of brightness augmentation
 
 ![alt text][image9]
 ![alt text][image12]
