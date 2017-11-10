@@ -162,10 +162,11 @@ In order to get rid of black region in the image we crop it in the neural networ
 
 ![alt text][image11]
 
-* Another improvement that help to deal with sunny or dark parts of the track is brightness augmentation. I randomly change brightness of the picture by a factor of [-20, 50] and add it to the training batch. This is the examples of brightness augmentation
+* Another improvement that help to deal with sunny or dark parts of the track is brightness augmentation. I randomly change brightness of the picture by a factor of [-20, 50] and add it to the training batch. These are the examples of brightness augmentation
+
 ![alt text][image9]
 ![alt text][image11]
 
-The final step was to run the simulator to see how well the car was driving around track one. There were a few turns where the vehicle fell off the track. To improve the driving behavior in these cases, I recorder additional data with turns only. After the collection process, I had about 13000 number of data points. The augmented dataset consisted of about 70000 points, therefore I used `model.fit_generator(...)` function from keras for memory savings as suggested in project materials. The ideal number of epochs was about 7-10 as evidenced by plateau of training and validation losses. I randomly shuffled the data set and put 20% of the data into a validation set.
+The final step was to run the simulator to see how well the car was driving around track one. There were a few turns where the vehicle fell off the track. To improve the driving behavior in these cases, I recorder **additional data with turns** only. After the collection process, I had about 13000 number of data points. The augmented dataset consisted of about 70000 points, therefore I used `model.fit_generator(...)` function from keras for memory savings as suggested in project materials. The ideal number of epochs was about 7-10 as evidenced by plateau of training and validation losses. I randomly shuffled the data set and put 20% of the data into a validation set.
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
