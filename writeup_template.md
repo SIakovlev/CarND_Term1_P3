@@ -66,7 +66,7 @@ I used modified architecture from NVIDIA paper:
 
 The idea was to get the similar number of parameters (i.e. around 350.000) and convolution layers with same filters.
 
-####2. Attempts to reduce overfitting in the model
+#### 2. Attempts to reduce overfitting in the model
 
 * The model contains L2 weights regularisation at each fully connected layer in order to reduce overfitting (model.py lines 199-210). 
 
@@ -76,11 +76,11 @@ The idea was to get the similar number of parameters (i.e. around 350.000) and c
 
 * The generator for training data augments images randomly, that helps to avoid overfitting as well.
 
-####3. Model parameter tuning
+#### 3. Model parameter tuning
 
 The model used an adam optimizer with starting learning rate 0.001, so the learning rate was not tuned manually (model.py line 204).
 
-####4. Appropriate training data
+#### 4. Appropriate training data
 
 Training data was chosen to keep the vehicle driving on the road. I created two datasets:
 
@@ -91,7 +91,7 @@ For details about how I created the training data, see the next section.
 
 ### Model Architecture and Training Documentation
 
-####1. Solution Design Approach
+#### 1. Solution Design Approach
 
 The overall strategy for deriving a model architecture was to use the adaptaion of NVIDIA architecture to this problem and create one large dataset with driving through the first track, record additional samples with recoveries and turns and then augment it with flips, translations and brightness changes.
 
