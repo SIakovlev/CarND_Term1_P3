@@ -102,8 +102,8 @@ The overall strategy for deriving a model architecture was to use the adaptaion 
 The solution approach consists of several steps:
 
 * **Neural network architecture**. My first step was to use a convolution neural network model similar to the NVIDIA architecture. I thought this model might be appropriate for two reasons:
- * it has large number of parameters, that is important if the task is to capture driving behavior based on pictures
- * it was used by NVIDIA for solving essentialy the same problem of behavioral cloning and showed a good result
+  * it has large number of parameters, that is important if the task is to capture driving behavior based on pictures
+  * it was used by NVIDIA for solving essentialy the same problem of behavioral cloning and showed a good result
 
 * **Architecture tuning**. Even though I did not have problems with overfitting, after some experimentation I found that my first model had too many parameters (about 4.5M) which led to large training time. In addition I kept in mind that NVIDIA had about 300k parameters and solved a more complicated problem, so I decided to tune the parameters of my architecture in order to reduce its capacity. 
 
