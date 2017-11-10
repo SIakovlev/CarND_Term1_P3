@@ -70,34 +70,34 @@ I used :
 | Fully connected	3: 16 outputs	| L2 weights regularisation: 0.0001 |
 | Output Layer| 1 output value |
 
-This is the modified version of NVIDIA neural network architecture. The idea was to get the similar number of parameters (i.e. around 350.000) and convolution layers with same filters.
+This is the modified version of NVIDIA neural network architecture. The idea was to get the similar number of parameters (i.e. around 350.000) and convolution layers with the same filters.
 
 #### 2. Attempts to reduce overfitting in the model
 
 * The model contains L2 weights regularisation at each fully connected layer in order to reduce overfitting (model.py lines 199-210). 
 
-* The model was trained and validated on different data sets to ensure that the model was not overfitting. The model was tested in the following way:
-  * Check model predictions for new images it has never seen before (model.py lines 228-284). To do that I wrote a separate generator (`tester`) that didn't augment imageset and just returned 2048 images at each `next(tester)` call.
-  * If the result of the previous step was satisfying I run it through the simulator and ensured that the vehicle could stay on the track.
+* The model was trained and validated on different datasets to ensure that the model did not overfit. The model was tested in the following way:
+  * Check model predictions for new images it has never seen before (model.py lines 228-284). To do that I wrote a separate generator (`tester`) that didn't augment the imageset and just returned 2048 images at each `next(tester)` call.
+  * If the result of the previous step was satisfactory I ran it through the simulator and ensured that the vehicle could stay on the track.
 
-* The generator for training data augments images randomly, that helps to avoid overfitting as well.
+* The generator for training data augments images randomly, which helps to avoid overfitting as well.
 
 #### 3. Model parameter tuning
 
-The model used an adam optimizer with starting learning rate 0.001, so the learning rate was not tuned manually (model.py line 204).
+The model used an adam optimiser with starting learning rate 0.001, so the learning rate was not tuned manually (model.py line 204).
 
 #### 4. Appropriate training data
 
 Training data was chosen to keep the vehicle driving on the road. I created two datasets:
 
-* First dataset contains combination of center lane driving, recovering from the left and right sides of the road.
+* First dataset contains a combination of center lane driving, recovering from the left and right sides of the road.
 * Second dataset consists of turns only.
 
 For details about how I created the training data, see the next section. 
 
 ### Model Architecture and Training Documentation
 
-The overall strategy for deriving a model architecture was to use the adaptaion of NVIDIA architecture to this problem and create one large dataset with driving through the first track, record additional samples with recoveries and turns and then augment it with flips, translations and brightness changes.
+The overall strategy for deriving a model architecture was to use the adaptaion of NVIDIA architecture to this problem and create one large dataset by driving through the first track, recording additional samples with recoveries and turns, and then augmentin it with flips, translations and brightness changes.
 
 The solution approach consists of several steps:
 
@@ -105,7 +105,7 @@ The solution approach consists of several steps:
   * it has large number of parameters, that is important if the task is to capture driving behavior based on pictures
   * it was used by NVIDIA for solving essentialy the same problem of behavioral cloning and showed a good result
 
-* **Architecture tuning**. Even though I did not have problems with overfitting, after some experimentation I found that my first model had too many parameters (about 4.5M) which led to large training time. In addition I kept in mind that NVIDIA had about 300k parameters and solved a more complicated problem, so I decided to tune the parameters of my architecture in order to reduce its capacity. 
+* **Architecture tuning**. Even though I did not have problems with overfitting, after some experimentation I found that my first model had too many parameters (about 4.5M) which led to a lengthy training time. In addition I kept in mind that NVIDIA had about 300k parameters and solved a more complicated problem, so I decided to tune the parameters of my architecture in order to reduce its capacity. 
 
 * **Images preprocessing**. To capture good driving behavior, I first recorded four laps on track one using center lane driving. Here is an example image of center lane driving:
 
@@ -117,7 +117,7 @@ This picture contains many elements that are not of interest, therefore I used i
   * blur them with Gaussian filter and change their colormap to YUV:
   ![alt text][image3]
   
- Once image preprocessing done for training data it should be done for simulator data as well, therefore I have added the following    changes to `drive.py` script file:
+ Once image preprocessing finished for the training data it had to be done for simulator data as well, therefore I have added the following changes to `drive.py` script file:
  ```python
  ...
  image = Image.open(BytesIO(base64.b64decode(imgString)))
@@ -132,7 +132,7 @@ This picture contains many elements that are not of interest, therefore I used i
 * **Dataset augmentation**. If we train the network based on central images only, it will be biased towards straight movement since the majority of steering angles are very close to 0:
 ![alt text][image8]
 
- * In order to fix this I augmented the dataset. First, I added **corrections to steering angles corresponding to left and right images**, so that if the car sees right image its steering angle should decrease (which corresponds to car movement to the left) and steering angle should increase for left images. Also, I distinguish between two cases: straigt movement (steering angle close to 0) and turns (steering angle is around 0.2 and above). In the second case, the correction factor should be larger, which helps the car to deal with abrupt turns. This logic is shown in the code below:
+ * In order to fix this I augmented the dataset. First, I added **corrections to steering angles corresponding to left and right images**, so that if the car sees right image (i.e. image from the right camera) its steering angle should decrease (which corresponds to car movement to the left) and similarly, the steering angle should increase for left images. Also, I distinguish between two cases: straight movement (steering angle close to 0) and turns (steering angle is around 0.2 and above). In the second case, the correction factor should be larger, which helps the car to deal with abrupt turns. This logic is shown in the code below:
 
 ```python
  # try to add robustness to turns, i.e.
@@ -153,7 +153,7 @@ This picture contains many elements that are not of interest, therefore I used i
 
 ![alt text][image6] ![alt text][image7]
 
-* Third, in order to improve robustness at the straight parts of the route, **random shifts** of the image to the right or left were added to the dataset. I shift the central image to the right by 10 - 20 pixels and correct the corresponding steering angle by a factor that depends on the shif:
+* Third, in order to improve robustness at the straight parts of the route, **random shifts** of the image to the right or left were added to the dataset. I shift the central image to the right by 10 - 20 pixels and correct the corresponding steering angle by a factor that depends on the shift:
 
 ```python
 if dice == 1:
@@ -181,7 +181,7 @@ and get the following result:
 
 ![alt text][image11]
 
-* Another improvement that help to deal with sunny or dark parts of the track is brightness augmentation. I randomly change brightness of the picture by a factor of [-20, 50] and add it to the training batch:
+* Another improvement that help to deal with sunny or dark parts of the track is brightness augmentation. I randomly change the brightness of the picture by a factor of [-20, 50] and add it to the training batch:
 
 ```python
 def augment_brightness(image):
